@@ -1,31 +1,58 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { userService } from "./user.service";
 import status from "http-status";
+import { catchAsync } from "../../utils/catchAsync";
+import { sendResponse } from "../../utils/sendResponse";
 
-const registeredUser = async (req: Request, res: Response) => {
-    try {
-        const payload = req.body;
+// const registeredUser = async (req: Request, res: Response) => {
 
-        const user = await userService.registeredUserWithDB(payload);
 
-        res.send({
-            success: true,
-            statusCode: status.CREATED,
-            meassage: "User registered successfully",
-            data: {
-                user
-            }
-        })
-    } catch (error) {
-        console.log(error)
-        res.status(status.INTERNAL_SERVER_ERROR).json({
-            success: false,
-            statusCode: status.INTERNAL_SERVER_ERROR,
-            message: "Feield to register user",
-            error: (error as Error).message
-        })
-    }
-}
+//     try {
+//         const payload = req.body;
+
+//         const user = await userService.registeredUserWithDB(payload);
+
+//         res.send({
+//             success: true,
+//             statusCode: status.CREATED,
+//             meassage: "User registered successfully",
+//             data: {
+//                 user
+//             }
+//         })
+//     } catch (error) {
+//         console.log(error)
+//         res.status(status.INTERNAL_SERVER_ERROR).json({
+//             success: false,
+//             statusCode: status.INTERNAL_SERVER_ERROR,
+//             message: "Feield to register user",
+//             error: (error as Error).message
+//         })
+//     }
+// }
+
+const registeredUser = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+
+    const user = await userService.registeredUserWithDB(payload);
+
+    // res.send({
+    //     success: true,
+    //     statusCode: status.CREATED,
+    //     meassage: "User registered successfully",
+    //     data: {
+    //         user
+    //     }
+    // })
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.CREATED,
+        message: "User registered successfully..!",
+        data: { user }
+    })
+
+})
 
 export const userControler = {
     registeredUser,
