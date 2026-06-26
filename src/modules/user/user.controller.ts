@@ -3,7 +3,6 @@ import { userService } from "./user.service";
 import status from "http-status";
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
-import jwt from "jsonwebtoken";
 import config from "../../config";
 import { jwtTokens } from "../../utils/jwt";
 
@@ -58,15 +57,21 @@ const registeredUser = catchAsync(async (req: Request, res: Response, next: Next
 })
 
 const meUserProfile = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const { accessToken, refressToken } = req.cookies;
+    // const { accessToken, refressToken } = req.cookies;
 
-    const verifiedToken = jwtTokens.verifyTokens(accessToken, config.jwt_access_secret);
+    // const verifiedToken = jwtTokens.verifyTokens(accessToken, config.jwt_access_secret);
 
-    if (typeof (verifiedToken) === "string") {
-        throw new Error(verifiedToken)
+    // if (typeof (verifiedToken) === "string") {
+    //     throw new Error(verifiedToken)
+    // }
+
+    const userId = req.user?.id;
+
+    if (!userId) {
+        return next(new Error("User not authenticated"));
     }
 
-    const meProfile = await userService.meUsreProfileWithDB(verifiedToken.id)
+    const meProfile = await userService.meUsreProfileWithDB(userId);
 
     sendResponse(res, {
         success: true,
