@@ -76,6 +76,26 @@ const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunc
         message: "Updated post successfully...!",
         data: result
     })
+});
+
+
+const deletePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const authorId = req.user?.id;
+    const isAdmin = req.user?.role === "ADMIN";
+    const postId = req.params.postId;
+
+    if (!postId) {
+        throw new Error("Post id requred in this api...!")
+    };
+
+    await postService.deletePostToDB(postId as string, authorId as string, isAdmin);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Post deleted successfully...!",
+        data: null
+    })
 })
 
 export const postController = {
@@ -83,5 +103,6 @@ export const postController = {
     getAllPost,
     getPostById,
     getMyPosts,
-    updatePost
+    updatePost,
+    deletePost
 };
