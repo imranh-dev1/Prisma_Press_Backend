@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import config from "./config";
 import { userRoute } from "./modules/user/user.route";
 import { authRouter } from "./modules/auth/auth.route";
+import { postRouter } from "./modules/post/post.route";
 
 const app: Application = exprese()
 
@@ -24,6 +25,8 @@ app.get('/', async (req: Request, res: Response) => {
 // app.post('/api/users')
 app.use("/api/users", userRoute)
 app.use("/api/auth", authRouter)
+
+app.use("/api/posts", postRouter)
 
 
 
