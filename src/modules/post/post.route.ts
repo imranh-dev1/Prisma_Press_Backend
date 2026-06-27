@@ -12,7 +12,7 @@ router.get("/my-posts", auth(Role.ADMIN, Role.USER, Role.AUTHOR), postController
 
 router.get("/:postId", postController.getPostById);
 
-
+router.patch("/:postId", auth(Role.ADMIN, Role.USER, Role.AUTHOR), postController.updatePost);
 
 
 export const postRouter = router;

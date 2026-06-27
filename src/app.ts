@@ -24,6 +24,7 @@ app.get('/', async (req: Request, res: Response) => {
 
 // app.post('/api/users')
 app.use("/api/users", userRoute)
+
 app.use("/api/auth", authRouter)
 
 app.use("/api/posts", postRouter)
