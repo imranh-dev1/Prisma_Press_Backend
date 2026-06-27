@@ -24,7 +24,7 @@ const getAllPost = catchAsync(async (req: Request, res: Response, next: NextFunc
 
     sendResponse(res, {
         success: true,
-        statusCode: status.CREATED,
+        statusCode: status.OK,
         message: "All posts get successfully...!",
         data: allposts
     })
