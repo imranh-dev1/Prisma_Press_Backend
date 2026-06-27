@@ -65,13 +65,13 @@ const meUserProfile = catchAsync(async (req: Request, res: Response, next: NextF
     //     throw new Error(verifiedToken)
     // }
 
-    const userId = req.user?.id;
+    // const userId = req.user?.id;
 
-    if (!userId) {
-        return next(new Error("User not authenticated"));
-    }
+    // if (!userId) {
+    //     return next(new Error("User not authenticated"));
+    // }
 
-    const meProfile = await userService.meUsreProfileWithDB(userId);
+    const meProfile = await userService.meUsreProfileWithDB(req.user?.id as string);
 
     sendResponse(res, {
         success: true,
