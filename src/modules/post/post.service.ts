@@ -11,6 +11,12 @@ const createPostWithDB = async (payload: ICreatePost, userId: string) => {
     return result
 };
 
+const getAllPostToDB = async () => {
+    const result = await prisma.post.findMany();
+    return result
+}
+
 export const postService = {
-    createPostWithDB
+    createPostWithDB,
+    getAllPostToDB
 }
