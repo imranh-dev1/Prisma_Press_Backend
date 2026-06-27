@@ -55,9 +55,35 @@ const getPostByIdToDB = async (postId: string) => {
 };
 
 
+const getMyPostsToDB = async (authorId: string) => {
+    const posts = await prisma.post.findMany({
+        where: {
+            authorId: authorId
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+        include: {
+            comments: true,
+            author: {
+                omit: {
+                    password: true
+                }
+            },
+            _count: {
+                select: {
+                    comments: true
+                }
+            }
+        }
+    });
+    return posts
+}
+
 
 export const postService = {
     createPostWithDB,
     getAllPostToDB,
-    getPostByIdToDB
+    getPostByIdToDB,
+    getMyPostsToDB
 }

@@ -46,9 +46,21 @@ const getPostById = catchAsync(async (req: Request, res: Response, next: NextFun
     })
 });
 
+const getMyPosts = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const authorId = req.user?.id;
+    const posts = await postService.getMyPostsToDB(authorId as string)
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Get all my posts successfully...!",
+        data: posts
+    })
+})
+
 export const postController = {
     createPost,
     getAllPost,
-
-    getPostById
+    getPostById,
+    getMyPosts
 };
