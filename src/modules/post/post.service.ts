@@ -1,3 +1,4 @@
+import { CommentStatus } from "../../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
 import { ICreatePost, IUpdatePost } from "./post.interface";
 
@@ -26,32 +27,84 @@ const getAllPostToDB = async () => {
 };
 
 const getPostByIdToDB = async (postId: string) => {
-    await prisma.post.findUniqueOrThrow({
-        where: {
-            id: postId
-        }
-    });
 
-    const updatePostView = prisma.post.update({
-        where: {
-            id: postId,
-        },
-        data: {
-            views: {
-                increment: 1
-            }
-        },
-        include: {
-            author: {
-                omit: {
-                    password: true
+
+    // await prisma.post.findUniqueOrThrow({
+    //     where: {
+    //         id: postId
+    //     }
+    // });
+
+    // const updatePostView = prisma.post.update({
+    //     where: {
+    //         id: postId,
+    //     },
+    //     data: {
+    //         views: {
+    //             increment: 1
+    //         }
+    //     },
+    //     include: {
+    //         author: {
+    //             omit: {
+    //                 password: true
+    //             }
+    //         },
+    //         comments: true
+    //     }
+    // })
+
+    // return updatePostView;
+
+    const transactionResult = await prisma.$transaction(
+        async (tx) => {
+            await tx.post.update({
+                where: {
+                    id: postId,
+                },
+                data: {
+                    views: {
+                        increment: 1
+                    },
                 }
-            },
-            comments: true
-        }
-    })
+            });
 
-    return updatePostView;
+            // throw new Error("fake error")
+
+            const post = await tx.post.findUniqueOrThrow({
+                where: {
+                    id: postId
+                },
+
+                include: {
+                    author: {
+                        omit: {
+                            password: true
+                        }
+                    },
+
+                    comments: {
+                        where: {
+                            status: CommentStatus.APPROVED
+                        },
+
+                        orderBy: {
+                            createdAt: "desc"
+                        }
+                    },
+
+                    _count: {
+                        select: {
+                            comments: true
+                        }
+                    }
+                }
+            });
+            return post
+        }
+    );
+
+    return transactionResult
 };
 
 
