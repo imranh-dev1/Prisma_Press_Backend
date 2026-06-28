@@ -58,6 +58,17 @@ const getMyPosts = catchAsync(async (req: Request, res: Response, next: NextFunc
     })
 });
 
+const getPostsStats = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const result = await postService.getPostsStats();
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Post stats retrieved successfully",
+        data: result
+    });
+});
+
 const updatePost = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const authorId = req.user?.id;
     const isAdmin = req.user?.role === "ADMIN";
@@ -104,5 +115,6 @@ export const postController = {
     getPostById,
     getMyPosts,
     updatePost,
-    deletePost
+    deletePost,
+    getPostsStats
 };

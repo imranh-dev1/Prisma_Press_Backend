@@ -10,6 +10,8 @@ router.get("/", postController.getAllPost);
 
 router.get("/my-posts", auth(Role.ADMIN, Role.USER, Role.AUTHOR), postController.getMyPosts);
 
+router.get("/stats", auth(Role.ADMIN), postController.getPostsStats);
+
 router.get("/:postId", postController.getPostById);
 
 router.patch("/:postId", auth(Role.ADMIN, Role.USER, Role.AUTHOR), postController.updatePost);
