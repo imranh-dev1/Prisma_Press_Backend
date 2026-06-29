@@ -77,8 +77,6 @@ const moderateComment = catchAsync(async (req: Request, res: Response, next: Nex
     const payload = req.body;
     const id = req.params.commentId;
 
-    console.log(req.user?.email);
-
     const result = await commentService.moderateCommentFormDB(payload, id as string);
 
     sendResponse(res, {
