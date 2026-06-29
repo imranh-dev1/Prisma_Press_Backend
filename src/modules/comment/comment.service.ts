@@ -77,10 +77,32 @@ const updateCommentToDB = async (payload: IUpdateComment, commentId: string, aut
 
 };
 
+const deleteCommentFormDB = async (commentId: string, authorId: string) => {
+    await prisma.comment.findUniqueOrThrow({
+        where: {
+            id: commentId,
+            authorId: authorId
+        },
+        // select: {
+        //     id: true
+        // }
+    });
+
+    await prisma.comment.delete({
+        where: {
+            id: commentId,
+            authorId: authorId
+        }
+    });
+
+    return null;
+}
+
 
 export const commentService = {
     createCommentToDB,
     getCommentByIdToDB,
     getCommentByAuthorIdToDB,
-    updateCommentToDB
+    updateCommentToDB,
+    deleteCommentFormDB
 } 

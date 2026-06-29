@@ -9,6 +9,7 @@ router.post("/", auth(Role.USER, Role.AUTHOR, Role.ADMIN), commentController.cre
 router.get("/:commentId", commentController.getCommentById);
 router.get("/author/:authorId", auth(Role.USER, Role.AUTHOR, Role.ADMIN), commentController.getCommentByAuthorId);
 router.patch("/:commentId", auth(Role.USER, Role.AUTHOR, Role.ADMIN), commentController.updateComment);
+router.delete("/:commentId", auth(Role.USER, Role.AUTHOR, Role.ADMIN), commentController.deleteComment);
 
 
 export const commentRouter = router;

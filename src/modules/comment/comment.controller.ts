@@ -58,6 +58,19 @@ const updateComment = catchAsync(async (req: Request, res: Response, next: NextF
         message: "Comment Updated successfully...!",
         data: result
     })
+});
+
+const deleteComment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.commentId;
+    const authorId = req.user?.id;
+    const result = await commentService.deleteCommentFormDB(id as string, authorId as string);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Comment Deleted successfully...!",
+        data: result
+    });
 })
 
 
@@ -66,4 +79,5 @@ export const commentController = {
     getCommentById,
     getCommentByAuthorId,
     updateComment,
+    deleteComment
 }
