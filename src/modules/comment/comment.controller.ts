@@ -31,7 +31,22 @@ const getCommentById = catchAsync(async (req: Request, res: Response, next: Next
     })
 });
 
+
+const getCommentByAuthorId = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const authorId = req.user?.id;
+
+    const result = await commentService.getCommentByAuthorIdToDB(authorId as string);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Get all comments by Author ID successfully...!",
+        data: result
+    })
+});
+
 export const commentController = {
     createComment,
-    getCommentById
+    getCommentById,
+    getCommentByAuthorId
 }
