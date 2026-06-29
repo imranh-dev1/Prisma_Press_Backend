@@ -71,7 +71,23 @@ const deleteComment = catchAsync(async (req: Request, res: Response, next: NextF
         message: "Comment Deleted successfully...!",
         data: result
     });
-})
+});
+
+const moderateComment = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const payload = req.body;
+    const id = req.params.commentId;
+
+    console.log(req.user?.email);
+
+    const result = await commentService.moderateCommentFormDB(payload, id as string);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Modarate Comment Updated successfully...!",
+        data: result
+    })
+});
 
 
 export const commentController = {
@@ -79,5 +95,6 @@ export const commentController = {
     getCommentById,
     getCommentByAuthorId,
     updateComment,
-    deleteComment
+    deleteComment,
+    moderateComment
 }

@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import { ICreateComment, IUpdateComment } from "./comment.interface";
+import { ICreateComment, IModerateComment, IUpdateComment } from "./comment.interface";
 
 const createCommentToDB = async (payload: ICreateComment, authorId: string) => {
     await prisma.post.findUniqueOrThrow({
@@ -96,7 +96,35 @@ const deleteCommentFormDB = async (commentId: string, authorId: string) => {
     });
 
     return null;
-}
+};
+
+const moderateCommentFormDB = async (payload: IModerateComment, commentId: string) => {
+
+    const commentData = await prisma.comment.findUniqueOrThrow({
+        where: {
+            id: commentId
+        },
+        select: {
+            id: true,
+            status: true
+        }
+    });
+
+    if (commentData.status === payload.status) {
+        throw new Error(`Your provided status (${payload.status}) is already up to date.`)
+    }
+
+    const comment = await prisma.comment.update({
+        where: {
+            id: commentId
+        },
+        data: payload
+    });
+
+    return comment;
+
+};
+
 
 
 export const commentService = {
@@ -104,5 +132,6 @@ export const commentService = {
     getCommentByIdToDB,
     getCommentByAuthorIdToDB,
     updateCommentToDB,
-    deleteCommentFormDB
+    deleteCommentFormDB,
+    moderateCommentFormDB
 } 
