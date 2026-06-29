@@ -8,7 +8,7 @@ const createComment = catchAsync(async (req: Request, res: Response, next: NextF
     const payload = req.body;
     const authorId = req.user?.id;
 
-    const result = await commentService.createComment(payload, authorId as string);
+    const result = await commentService.createCommentToDB(payload, authorId as string);
 
     sendResponse(res, {
         success: true,
@@ -18,6 +18,20 @@ const createComment = catchAsync(async (req: Request, res: Response, next: NextF
     })
 });
 
+const getCommentById = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const id = req.params.commentId;
+
+    const result = await commentService.getCommentByIdToDB(id as string);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Comment get successfully...!",
+        data: result
+    })
+});
+
 export const commentController = {
     createComment,
+    getCommentById
 }
