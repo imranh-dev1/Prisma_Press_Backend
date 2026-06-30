@@ -6,6 +6,7 @@ import { userRoute } from "./modules/user/user.route";
 import { authRouter } from "./modules/auth/auth.route";
 import { postRouter } from "./modules/post/post.route";
 import { commentRouter } from "./modules/comment/comment.router";
+import { notFound } from "./middlewares/notFound";
 
 const app: Application = exprese()
 
@@ -31,6 +32,9 @@ app.use("/api/auth", authRouter)
 app.use("/api/posts", postRouter)
 
 app.use("/api/comments", commentRouter)
+
+app.use(notFound)
+
 
 export default app;
 
