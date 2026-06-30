@@ -31,7 +31,6 @@ const getCommentById = catchAsync(async (req: Request, res: Response, next: Next
     })
 });
 
-
 const getCommentByAuthorId = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const authorId = req.user?.id;
 
