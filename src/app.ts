@@ -7,6 +7,7 @@ import { authRouter } from "./modules/auth/auth.route";
 import { postRouter } from "./modules/post/post.route";
 import { commentRouter } from "./modules/comment/comment.router";
 import { notFound } from "./middlewares/notFound";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 
 const app: Application = exprese()
 
@@ -34,6 +35,7 @@ app.use("/api/posts", postRouter)
 app.use("/api/comments", commentRouter)
 
 app.use(notFound)
+app.use(globalErrorHandler)
 
 
 export default app;
