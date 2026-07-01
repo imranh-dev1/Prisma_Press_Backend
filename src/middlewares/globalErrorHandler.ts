@@ -18,15 +18,15 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
                 errorMessage = "Duplicate Key Error"
         } else if (err.code === "P2003") {
             statusCode = status.BAD_REQUEST,
-                errorMessage = "Foreign key constraint failed"
+                errorMessage = "Foreign key constraint failed..."
         } else if (err.code === "P2025") {
             statusCode = status.BAD_REQUEST,
-                errorMessage = "An operation failed because it depends on one or more records that were required but not found."
+                errorMessage = "An operation failed because it depends on one or more records that were required but not found...."
         }
     } else if (err instanceof Prisma.PrismaClientInitializationError) {
         if (err.errorCode === "P1000") {
             statusCode = status.UNAUTHORIZED;
-            errorMessage = "Authentication failed against database server. Please Check Your Credentials"
+            errorMessage = "Authentication failed against database server. Please Check Your Credentials...."
         } else if (err.errorCode === "P1001") {
             statusCode = status.BAD_REQUEST;
             errorMessage = "Can't reach database server...."
