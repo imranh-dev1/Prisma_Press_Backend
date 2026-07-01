@@ -33,7 +33,7 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
         }
     } else if (err instanceof Prisma.PrismaClientUnknownRequestError) {
         statusCode = status.INTERNAL_SERVER_ERROR;
-        errorMessage = "Error occurred during query execution"
+        errorMessage = "Error occurred during query execution..."
     }
 
 
