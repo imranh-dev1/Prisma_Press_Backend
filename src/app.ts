@@ -18,6 +18,7 @@ app.use(cors({
     credentials: true
 }));
 
+
 const endpointSecret = config.stripe_webhook_secret;
 
 app.post("/api/subscriprion/webhook", exprese.raw({ type: 'application/json' }), (request, response) => {
