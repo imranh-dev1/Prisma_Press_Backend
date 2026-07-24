@@ -62,8 +62,8 @@ const handleWebhook = async (payload: Buffer, signature: string) => {
         endpointSecret
     );
 
-    console.log("Webhook Hit");
-    console.log(event.type);
+    // console.log("Webhook Hit");
+    // console.log(event.type);
 
     // Handle the event
     switch (event.type) {
