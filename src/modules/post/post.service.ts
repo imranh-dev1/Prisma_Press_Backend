@@ -262,7 +262,8 @@ const getAllPostToDB = async (query: IPostQuery) => {
 
 
             where: {
-                AND: andConditions
+                AND: andConditions,
+                isPremium: false,
             },
 
             // dynamic pagination and sorting
