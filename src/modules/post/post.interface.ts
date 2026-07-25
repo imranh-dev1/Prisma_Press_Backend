@@ -22,13 +22,11 @@ export interface IUpdatePost {
 
 
 export interface IPostQuery extends PostWhereInput {
-    //post model er fields
-    // title ?: string;
-    // content ?: string
-
-    searchTerm?: string
-    page?: string
-    limit?: string
-    sortOrder?: string
-    sortBy?: string
-} 
+    title?: string;
+    content?: string;
+    searchTerm?: string; 
+    page?: string;
+    limit?: string;
+    sortOrder?: string;
+    sortBy?: string;
+}
